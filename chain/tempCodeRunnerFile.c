@@ -1,0 +1,2 @@
+
+  topInsertion(list, 77);
