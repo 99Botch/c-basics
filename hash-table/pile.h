@@ -1,9 +1,10 @@
 #ifndef H_PILE
 #define H_PILE
 
+#include <stdlib.h>
 typedef struct Cell Cell;
 struct Cell {
-  char *name;
+  char name_id[5];
   int number;
   Cell *next;
 };
