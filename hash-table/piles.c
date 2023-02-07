@@ -1,8 +1,16 @@
+#include "hash.c"
 #include "pile.h"
+#include "randomizer.c"
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
-// init pile
+#define MAX_LENGTH
+
+int recursion(int _hash);
+Cell *hash_table[10];
+
+// init pile with no value
 Pile *initPile() {
   Pile *pile = malloc(sizeof(*pile));
   pile->first = NULL;
@@ -12,46 +20,51 @@ Pile *initPile() {
 
 // get items from pile
 void getCells(Pile *_pile) {
-  if (_pile == NULL)
-    exit(EXIT_FAILURE);
+  (_pile == NULL) ? exit(EXIT_FAILURE) : NULL;
 
   Cell *currentCell = _pile->first;
 
   while (currentCell != NULL) {
-    printf("%d\n; ", currentCell->number);
-    printf("%s\n; ", currentCell->name);
+    printf("%s > %d \n", currentCell->name_id, currentCell->number);
     currentCell = currentCell->next;
   }
-  printf("\n\n");
 }
 
 // add item on top of pile
 void pileUp(Pile *_pile, int _newNumb) {
   Cell *cell = malloc(sizeof(*cell));
 
-  if (_pile == NULL || cell == NULL)
-    exit(EXIT_FAILURE);
+  (_pile == NULL || cell == NULL) ? exit(EXIT_FAILURE) : NULL;
+
+  char *randStr = randName();
+  int hash = hashing(randStr);
+  hash = recursion(hash);
+
+  if (hash == -1) {
+    printf(
+        "No more space in cue!!! Release memory before adding items again..");
+    free(randStr);
+    return;
+  }
+
+  hash_table[hash] = cell;
+
+  strcpy(cell->name_id, randStr);
   cell->number = _newNumb;
-
-  char intParser[20];
-  sprintf(intParser, "%d", _newNumb);
-  printf("%s; ", intParser);
-  cell->name = intParser;
-
   cell->next = _pile->first;
   _pile->first = cell;
+  free(randStr);
 }
 
 // remove last added item
 int unpille(Pile *_pile) {
-  if (_pile == NULL)
-    exit(EXIT_FAILURE);
+  (_pile == NULL) ? exit(EXIT_FAILURE) : NULL;
 
   Cell *currentCell = _pile->first;
   int unpilled = 0;
 
   if (_pile != NULL && _pile->first != NULL) {
-    //unpilled = currentCell->number;
+    unpilled = currentCell->number;
     _pile->first = currentCell->next;
     free(currentCell);
   }
@@ -59,6 +72,16 @@ int unpille(Pile *_pile) {
   return unpilled;
 }
 
-/*
- * HASHING
- */
+int recursion(int _hash) {
+  if (_hash >= 10) {
+    _hash = -1;
+    return _hash;
+  }
+
+  if (hash_table[_hash] != NULL && _hash < 10) {
+    _hash++;
+    return recursion(_hash);
+  }
+
+  return _hash;
+}
