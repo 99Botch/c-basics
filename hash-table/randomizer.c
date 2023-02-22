@@ -1,3 +1,4 @@
+// randomizer gives a random value to item where n is between [0:100[
 #include <stdio.h>
 #include <stdlib.h>
 
