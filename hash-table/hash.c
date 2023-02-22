@@ -4,6 +4,7 @@
 
 #define SALT 10
 
+// hashing function hashes an input by summing each ascii value of a name % 10
 int hashing(char *_id) {
   int hash = 0;
   _id[strcspn(_id, "\n")] = '\0';
