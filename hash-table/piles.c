@@ -7,6 +7,7 @@
 
 #define MAX_LENGTH
 
+// recursion() act like nameChk in main.c without the memory leak constraints
 int recursion(int _hash);
 Cell *hash_table[10];
 
@@ -54,6 +55,8 @@ void pileUp(Pile *_pile, int _newNumb) {
   cell->next = _pile->first;
   _pile->first = cell;
   free(randStr);
+
+  printf("Item added..\n\n");
 }
 
 // remove last added item
@@ -73,6 +76,8 @@ int unpille(Pile *_pile) {
 }
 
 int recursion(int _hash) {
+  printf(">><<TRUE\n");
+
   if (_hash >= 10) {
     _hash = -1;
     return _hash;
