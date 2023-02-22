@@ -1,3 +1,4 @@
+// init chained list and its functions
 #ifndef H_PILE
 #define H_PILE
 
